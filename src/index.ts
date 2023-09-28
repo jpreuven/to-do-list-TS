@@ -36,6 +36,10 @@ form?.addEventListener("submit", (e) => {
 function addListItem(task: Task) {
   const item = document.createElement("li");
   const label = document.createElement("label");
+  const span = document.createElement("span");
+  const span1 = document.createElement("span");
+  const span2 = document.createElement("span");
+
   const checkbox = document.createElement("input");
   const deleteButton = document.createElement("button");
   checkbox.addEventListener("change", () => {
@@ -51,11 +55,18 @@ function addListItem(task: Task) {
   deleteButton.addEventListener("click", () => {
     deleteListItem(task, item);
   });
-
   label.setAttribute("id", task.id);
-  label.append(checkbox, task.title, deleteButton);
-  item.append(label);
-  list?.append(item);
+
+  label.appendChild(checkbox);
+  label.appendChild(span);
+  label.appendChild(deleteButton);
+
+  span.textContent = task.title;
+  span1.textContent = task.title;
+  span2.textContent = task.title;
+
+  item.appendChild(label);
+  list?.appendChild(item);
 }
 
 //Delete task from list
