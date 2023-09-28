@@ -1,5 +1,6 @@
 import { v4 as uuidV4 } from "uuid";
 
+//TS Types
 type Task = {
   id: string;
   title: string;
@@ -7,15 +8,13 @@ type Task = {
   createdAt: Date;
 };
 
+//Global Variables
 const list = document.querySelector<HTMLUListElement>("#list");
 const form = document.getElementById("new-task-form") as HTMLFormElement | null;
 const input = document.querySelector<HTMLInputElement>("#new-task-title");
-const tasks: Task[] = loadTasks();
-tasks.forEach((task) => {
-  addListItem(task);
-  completedStrikeThrough(task);
-});
 
+//Event Listeners
+// Creating new tasks
 form?.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -27,40 +26,53 @@ form?.addEventListener("submit", (e) => {
     completed: false,
     createdAt: new Date(),
   };
-  tasks.push(newTask);
-  saveTasks();
-
+  addTask(newTask);
   addListItem(newTask);
   input.value = "";
 });
 
+//Functions
+// Add new item to list
 function addListItem(task: Task) {
   const item = document.createElement("li");
   const label = document.createElement("label");
   const checkbox = document.createElement("input");
+  const deleteButton = document.createElement("button");
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked;
-    saveTasks();
+    strikethrough(task);
     completedStrikeThrough(task);
   });
   checkbox.type = "checkbox";
   checkbox.checked = task.completed;
+
+  deleteButton.textContent = " 🗑";
+  deleteButton.setAttribute("class", "delete-button");
+  deleteButton.addEventListener("click", () => {
+    deleteListItem(task, item);
+  });
+
   label.setAttribute("id", task.id);
-  label.append(checkbox, task.title);
+  label.append(checkbox, task.title, deleteButton);
   item.append(label);
   list?.append(item);
 }
 
-function saveTasks() {
-  localStorage.setItem("TASKS", JSON.stringify(tasks));
+//Delete task from list
+function deleteListItem(task: Task, item: HTMLLIElement) {
+  return fetch(`http://localhost:3000/tasks/${task.id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => res.json())
+    .then(() => {
+      item.remove();
+    });
 }
 
-function loadTasks(): Task[] {
-  const taskJSON = localStorage.getItem("TASKS");
-  if (taskJSON == null) return [];
-  return JSON.parse(taskJSON);
-}
-
+//Creating strikethrough style
 function completedStrikeThrough(task: Task) {
   if (task.completed) {
     const taskElement = document.querySelector<HTMLLabelElement>(`#${task.id}`);
@@ -70,3 +82,40 @@ function completedStrikeThrough(task: Task) {
     taskElement?.setAttribute("class", "");
   }
 }
+
+// Adding task to JSON
+function addTask(task: Task) {
+  fetch("http://localhost:3000/tasks", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(task),
+  }).then((r) => r.json());
+}
+
+// Persisting Strikethrough in JSON
+function strikethrough(task: Task) {
+  fetch(`http://localhost:3000/tasks/${task.id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ completed: task.completed }),
+  }).then((r) => r.json());
+}
+
+// Fetching Tasks
+function getTasks() {
+  return fetch("http://localhost:3000/tasks").then((response) =>
+    response.json()
+  );
+}
+
+// Init
+getTasks().then((r) => {
+  r.forEach(function (task: Task) {
+    addListItem(task);
+    completedStrikeThrough(task);
+  });
+});
