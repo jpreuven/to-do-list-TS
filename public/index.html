@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="index.css" />
     <script src="dist/index.js" type="module"></script>
     <title>Document</title>
   </head>
@@ -14,10 +15,12 @@
     }
   </style>
   <body>
-    <ul id="list"></ul>
-    <form id="new-task-form">
-      <input type="text" id="new-task-title" />
-      <button type="submit">Add</button>
-    </form>
+    <div id="task-form-and-list">
+      <form id="new-task-form">
+        <input type="text" id="new-task-title" />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="list"></ul>
+    </div>
   </body>
 </html>

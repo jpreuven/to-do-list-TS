@@ -11,7 +11,10 @@ const list = document.querySelector<HTMLUListElement>("#list");
 const form = document.getElementById("new-task-form") as HTMLFormElement | null;
 const input = document.querySelector<HTMLInputElement>("#new-task-title");
 const tasks: Task[] = loadTasks();
-tasks.forEach(addListItem);
+tasks.forEach((task) => {
+  addListItem(task);
+  completedStrikeThrough(task);
+});
 
 form?.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -61,6 +64,9 @@ function loadTasks(): Task[] {
 function completedStrikeThrough(task: Task) {
   if (task.completed) {
     const taskElement = document.querySelector<HTMLLabelElement>(`#${task.id}`);
-    console.log(taskElement);
+    taskElement?.setAttribute("class", "strikethrough");
+  } else {
+    const taskElement = document.querySelector<HTMLLabelElement>(`#${task.id}`);
+    taskElement?.setAttribute("class", "");
   }
 }
