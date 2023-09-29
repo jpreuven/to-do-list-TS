@@ -80,6 +80,7 @@ function deleteListItem(task: Task, item: HTMLLIElement) {
     .then((res) => res.json())
     .then(() => {
       item.remove();
+      console.log("hello");
     });
 }
 
