@@ -10,10 +10,17 @@
   </head>
   <body>
     <div id="task-form-and-list">
-      <form id="new-task-form">
-        <input type="text" id="new-task-title" />
-        <button type="submit" id="add-button">Add</button>
-      </form>
+      <div id="title-dropdown">
+        <form id="new-task-form">
+          <input type="text" id="new-task-title" />
+          <select id="priority-dropdown">
+            <option>What?</option>
+            <option>What?</option>
+            <option>What?</option>
+          </select>
+        </form>
+      </div>
+      <button type="submit" id="add-button" form="new-task-form">Add</button>
       <ul id="list"></ul>
     </div>
   </body>

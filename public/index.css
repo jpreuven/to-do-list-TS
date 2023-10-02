@@ -5,6 +5,8 @@
 }
 
 #task-form-and-list {
+  display: flex;
+  flex-direction: column;
   margin: auto;
   width: 50%;
   text-align: center;
@@ -39,31 +41,38 @@ label span {
 }
 
 input[type="checkbox"] {
-  /* margin-right: 50px; */
   margin-right: 5px;
   width: 25px;
   height: 25px;
-}
-
-#new-task-title {
-  height: 50px;
-  font-family: cursive;
-  font-size: 30px;
-  margin-left: 100px;
-  margin-right: 100px;
+  flex-shrink: 0;
 }
 
 #add-button {
   cursor: pointer;
-  width: 100px;
+  width: 150px;
+  font-size: 15px;
   margin: 5px;
-  justify-content: center;
+  align-self: center;
 }
 
 #new-task-form {
   display: flex;
-
   justify-content: center;
-  /* flex-direction: column; */
-  flex-flow: column;
+  flex-flow: row wrap;
+}
+#title-dropdown {
+  display: flex;
+  flex-direction: row;
+  align-self: center;
+}
+#new-task-title {
+  font-family: cursive;
+  font-size: 30px;
+}
+
+#priority-dropdown {
+  height: 55.2px;
+  font-family: cursive;
+  font-size: 15px;
+  width: 100px;
 }
