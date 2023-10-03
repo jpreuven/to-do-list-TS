@@ -12,13 +12,32 @@ type Task = {
 const list = document.querySelector<HTMLUListElement>("#list");
 const form = document.getElementById("new-task-form") as HTMLFormElement | null;
 const input = document.querySelector<HTMLInputElement>("#new-task-title");
+const addButton = document.querySelector<HTMLButtonElement>("#add-button");
 
 //Event Listeners
 // Creating new tasks
 form?.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  if (input?.value == "" || input?.value == null) return;
+  // if (input?.value == "" || input?.value == null) return;
+  if (input?.value == "" || input?.value == null) {
+    let emptyForm = setInterval(() => {
+      flashForm();
+    }, 75);
+    setTimeout(() => {
+      clearInterval(emptyForm);
+      form?.classList.remove("title-form-empty");
+    }, 300);
+
+    return;
+  }
+
+  function flashForm() {
+    form?.classList.contains("title-form-empty")
+      ? form?.classList.remove("title-form-empty")
+      : form?.classList.add("title-form-empty");
+  }
+  // console.log(form?.classList.contains("title-form-empty"));
 
   const newTask: Task = {
     id: "f" + uuidV4(),
@@ -31,14 +50,35 @@ form?.addEventListener("submit", (e) => {
   input.value = "";
 });
 
+input?.addEventListener("focus", () => {
+  form?.classList.add("title-form-focused");
+});
+
+input?.addEventListener("blur", () => {
+  form?.classList.remove("title-form-focused");
+});
+
+addButton?.addEventListener("mouseover", () => {
+  addButton?.classList.add("add-button-hover");
+});
+addButton?.addEventListener("mouseout", () => {
+  addButton?.classList.remove("add-button-hover");
+});
+
+addButton?.addEventListener("mousedown", () => {
+  addButton?.classList.add("add-button-click");
+});
+
+addButton?.addEventListener("mouseup", () => {
+  addButton?.classList.remove("add-button-click");
+});
+
 //Functions
 // Add new item to list
 function addListItem(task: Task) {
   const item = document.createElement("li");
   const label = document.createElement("label");
   const span = document.createElement("span");
-  const span1 = document.createElement("span");
-  const span2 = document.createElement("span");
 
   const checkbox = document.createElement("input");
   const deleteButton = document.createElement("button");
@@ -62,8 +102,7 @@ function addListItem(task: Task) {
   label.appendChild(deleteButton);
 
   span.textContent = task.title;
-  span1.textContent = task.title;
-  span2.textContent = task.title;
+  span.setAttribute("id", "span-" + task.id);
 
   item.appendChild(label);
   list?.appendChild(item);
@@ -86,10 +125,14 @@ function deleteListItem(task: Task, item: HTMLLIElement) {
 //Creating strikethrough style
 function completedStrikeThrough(task: Task) {
   if (task.completed) {
-    const taskElement = document.querySelector<HTMLLabelElement>(`#${task.id}`);
+    const taskElement = document.querySelector<HTMLLabelElement>(
+      `#span-${task.id}`
+    );
     taskElement?.setAttribute("class", "strikethrough");
   } else {
-    const taskElement = document.querySelector<HTMLLabelElement>(`#${task.id}`);
+    const taskElement = document.querySelector<HTMLLabelElement>(
+      `#span-${task.id}`
+    );
     taskElement?.setAttribute("class", "");
   }
 }
