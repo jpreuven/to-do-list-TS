@@ -14,12 +14,13 @@ const form = document.getElementById("new-task-form") as HTMLFormElement | null;
 const input = document.querySelector<HTMLInputElement>("#new-task-title");
 const addButton = document.querySelector<HTMLButtonElement>("#add-button");
 
+/////////////////////////////////////////////////
+
 //Event Listeners
 // Creating new tasks
 form?.addEventListener("submit", (e) => {
   e.preventDefault();
 
-  // if (input?.value == "" || input?.value == null) return;
   if (input?.value == "" || input?.value == null) {
     let emptyForm = setInterval(() => {
       flashForm();
@@ -37,7 +38,6 @@ form?.addEventListener("submit", (e) => {
       ? form?.classList.remove("title-form-empty")
       : form?.classList.add("title-form-empty");
   }
-  // console.log(form?.classList.contains("title-form-empty"));
 
   const newTask: Task = {
     id: "f" + uuidV4(),

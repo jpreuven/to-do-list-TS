@@ -1,7 +1,12 @@
+body {
+  overflow-x: hidden;
+}
+
 #list {
   list-style: none;
   padding: 0;
   text-align: left;
+  /* animation: slideInTopList 0.75s ease-in 0.75s normal both; */
 }
 
 #task-form-and-list {
@@ -21,7 +26,7 @@
   font-size: 25px;
 }
 
-label {
+li > label {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -53,7 +58,6 @@ input[type="checkbox"] {
   flex-flow: row wrap;
   border-style: solid;
   border-radius: 15px;
-  /* border-color: black; */
   padding: 5px;
   background-color: rgba(255, 255, 255, 1);
 }
@@ -80,13 +84,11 @@ input[type="checkbox"] {
 
 #title-dropdown,
 #add-button {
-  /* position: sticky; */
-  /* top: 0px; */
   display: flex;
   flex-direction: column;
 }
 
-#title-dropdown button.add-button-hover {
+#add-button:hover {
   background: rgba(63, 63, 63, 0.1);
 }
 
@@ -106,12 +108,54 @@ input[type="checkbox"] {
   padding: black;
 }
 
+@keyframes slideInTop {
+  from {
+    transform: translateY(-150px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInTopList {
+  from {
+    transform: translateY(1000px);
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
 #outer-header-container {
   position: sticky;
   top: 0px;
   display: flex;
   justify-content: center;
   height: 15dvh;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  /* Adjust the height for smaller screens */
+  #outer-header-container {
+    height: 10vh; /* You can change this value as needed */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Further adjust the height for even smaller screens */
+  #outer-header-container {
+    height: 5vh; /* You can change this value as needed */
+  }
+}
+
+#title-dropdown {
+  animation: slideInTop 0.75s ease-in 0.25s normal both;
+}
+
+#list {
+  animation: slideInTopList 0.75s ease-in 0.25s normal both;
 }
 
 .title-form-focused {
