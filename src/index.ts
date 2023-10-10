@@ -79,6 +79,8 @@ function addListItem(task: Task) {
   const item = document.createElement("li");
   const label = document.createElement("label");
   const span = document.createElement("span");
+  const startTime = document.createElement("span");
+  const endTime = document.createElement("span");
 
   const checkbox = document.createElement("input");
   const deleteButton = document.createElement("button");
@@ -98,11 +100,22 @@ function addListItem(task: Task) {
   label.setAttribute("id", task.id);
 
   label.appendChild(checkbox);
+  label.appendChild(startTime);
+  label.appendChild(endTime);
   label.appendChild(span);
   label.appendChild(deleteButton);
 
   span.textContent = task.title;
+  startTime.textContent = "10:45am";
+  endTime.textContent = "5:45am";
+
+  startTime.style.padding = "0 20px 0 10px";
+  endTime.style.padding = "0 20px 0 10px";
+  checkbox.style.marginRight = "20px";
+  span.style.padding = "0 20px 0 10px";
+
   span.setAttribute("id", "span-" + task.id);
+  span.setAttribute("class", "task-span");
 
   item.appendChild(label);
   list?.appendChild(item);
@@ -128,12 +141,12 @@ function completedStrikeThrough(task: Task) {
     const taskElement = document.querySelector<HTMLLabelElement>(
       `#span-${task.id}`
     );
-    taskElement?.setAttribute("class", "strikethrough");
+    taskElement?.classList.add("strikethrough");
   } else {
     const taskElement = document.querySelector<HTMLLabelElement>(
       `#span-${task.id}`
     );
-    taskElement?.setAttribute("class", "");
+    taskElement?.classList.remove("strikethrough");
   }
 }
 

@@ -30,7 +30,7 @@ li > label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 25px;
+  font-size: calc(40% + 1vw);
   flex-flow: row;
 }
 
@@ -39,10 +39,15 @@ li > label {
   color: rgba(100, 100, 100, 0.7);
 }
 
-label span {
+/* label span {
   flex-grow: 1;
   max-width: 800px;
   margin-right: 5px;
+} */
+.task-span {
+  flex-grow: 1;
+  max-width: 800px;
+  /* margin-right: 5px; */
 }
 
 input[type="checkbox"] {
