@@ -10,25 +10,57 @@
   </head>
   <body>
     <div id="task-form-and-list">
-      <div id="outer-header-container">
-        <div id="title-dropdown">
-          <label for="new-task-title"
-            >What task would you like to accomplish?</label
-          >
-          <form id="new-task-form">
-            <input type="text" id="new-task-title" />
-            <select id="priority-dropdown">
-              <option>What?</option>
-              <option>What?</option>
-              <option>What?</option>
-            </select>
-          </form>
-          <button type="submit" id="add-button" form="new-task-form">
-            Add
-          </button>
+      <div id="header-titles">
+        <div id="outer-header-container">
+          <div id="title-dropdown">
+            <label for="new-task-title"
+              >What task would you like to accomplish?</label
+            >
+            <form id="new-task-form">
+              <input type="text" id="new-task-title" />
+              <select id="priority-dropdown">
+                <option>What?</option>
+                <option>What?</option>
+                <option>What?</option>
+              </select>
+            </form>
+            <button type="submit" id="add-button" form="new-task-form">
+              Add
+            </button>
+          </div>
+        </div>
+        <div>
+          <label id="list-titles">
+            <div id="completed-start-end-titles">
+              <span id="completed-title">Completed</span>
+              <span id="start-time-title">Start Time</span>
+              <span id="end-time-title">End Time</span>
+            </div>
+            <span id="task-description-title">Task Description</span>
+            <span id="delete-title">Delete</span>
+          </label>
         </div>
       </div>
-      <ul id="list"></ul>
+      <ul id="list">
+        <li>
+          <!-- <label id="list-titles">
+            <div id="completed-start-end-titles">
+              <span id="completed-title">Completed</span>
+              <span id="start-time-title">Start Time</span>
+              <span id="end-time-title">End Time</span>
+            </div>
+            <span id="task-description-title">Task Description</span>
+            <span id="delete-title">Delete</span>
+          </label> -->
+        </li>
+      </ul>
+      <input type="text" list="cars" disabled />
+      <datalist id="cars" contenteditable="false">
+        <option>Volvo</option>
+        <option>Saab</option>
+        <option>Mercedes</option>
+        <option>Audi</option>
+      </datalist>
     </div>
   </body>
 </html>

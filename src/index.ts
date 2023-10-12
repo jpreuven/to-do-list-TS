@@ -76,47 +76,76 @@ addButton?.addEventListener("mouseup", () => {
 //Functions
 // Add new item to list
 function addListItem(task: Task) {
+  // creating new elements
   const item = document.createElement("li");
   const label = document.createElement("label");
   const span = document.createElement("span");
-  const startTime = document.createElement("span");
-  const endTime = document.createElement("span");
+  // const startTime = document.createElement("span");
+  // const endTime = document.createElement("span");
+  const startTime = document.createElement("select");
+  const endTime = document.createElement("select");
 
   const checkbox = document.createElement("input");
   const deleteButton = document.createElement("button");
+
+  // Event listeners
   checkbox.addEventListener("change", () => {
     task.completed = checkbox.checked;
     strikethrough(task);
     completedStrikeThrough(task);
   });
-  checkbox.type = "checkbox";
-  checkbox.checked = task.completed;
 
-  deleteButton.textContent = " 🗑";
-  deleteButton.setAttribute("class", "delete-button");
   deleteButton.addEventListener("click", () => {
     deleteListItem(task, item);
   });
-  label.setAttribute("id", task.id);
 
+  label.addEventListener("input", (event) => {
+    if (
+      event.target === startTime ||
+      event.target === endTime ||
+      event.target === span
+    ) {
+      editItems(task, event.target as HTMLElement);
+      // console.log((event.target as HTMLElement).textContent);
+    }
+  });
+
+  // setting text content
+  deleteButton.textContent = " 🗑";
+  span.textContent = task.title;
+  startTime.textContent = "10:45am";
+  endTime.textContent = "5:45am";
+  checkbox.checked = task.completed;
+
+  // applying styling
+  startTime.style.padding = "0 20px 0 10px";
+  endTime.style.padding = "0 20px 0 10px";
+  checkbox.style.marginRight = "20px";
+  span.style.padding = "0 20px 0 10px";
+  startTime.style.outline = "none";
+  endTime.style.outline = "none";
+  span.style.outline = "none";
+
+  //setting all attributes
+  checkbox.type = "checkbox";
+  deleteButton.setAttribute("class", "delete-button");
+  label.setAttribute("id", task.id);
+  label.setAttribute("for", "");
+  startTime.setAttribute("id", "start-time-" + task.id);
+  startTime.setAttribute("contenteditable", "true");
+  endTime.setAttribute("id", "end-time-" + task.id);
+  endTime.setAttribute("contenteditable", "true");
+  span.setAttribute("id", "span-" + task.id);
+  span.setAttribute("class", "task-span");
+  span.setAttribute("contenteditable", "true");
+  item.setAttribute("class", "task-list-item");
+
+  // appending all elements
   label.appendChild(checkbox);
   label.appendChild(startTime);
   label.appendChild(endTime);
   label.appendChild(span);
   label.appendChild(deleteButton);
-
-  span.textContent = task.title;
-  startTime.textContent = "10:45am";
-  endTime.textContent = "5:45am";
-
-  startTime.style.padding = "0 20px 0 10px";
-  endTime.style.padding = "0 20px 0 10px";
-  checkbox.style.marginRight = "20px";
-  span.style.padding = "0 20px 0 10px";
-
-  span.setAttribute("id", "span-" + task.id);
-  span.setAttribute("class", "task-span");
-
   item.appendChild(label);
   list?.appendChild(item);
 }
@@ -138,15 +167,42 @@ function deleteListItem(task: Task, item: HTMLLIElement) {
 //Creating strikethrough style
 function completedStrikeThrough(task: Task) {
   if (task.completed) {
-    const taskElement = document.querySelector<HTMLLabelElement>(
+    const taskElement = document.querySelector<HTMLSpanElement>(
       `#span-${task.id}`
     );
+    const startTimeElement = document.querySelector<HTMLSpanElement>(
+      `#start-time-${task.id}`
+    );
+    const endTimeElement = document.querySelector<HTMLSpanElement>(
+      `#end-time-${task.id}`
+    );
+    // console.log(taskElement?.getAttribute("contenteditable"));
+    // console.log(taskElement?.getAttribute("contenteditable"));
+    taskElement?.setAttribute("contenteditable", "false");
+    startTimeElement?.setAttribute("contenteditable", "false");
+    endTimeElement?.setAttribute("contenteditable", "false");
+
     taskElement?.classList.add("strikethrough");
+    startTimeElement?.classList.add("strikethrough");
+    endTimeElement?.classList.add("strikethrough");
   } else {
-    const taskElement = document.querySelector<HTMLLabelElement>(
+    const taskElement = document.querySelector<HTMLSpanElement>(
       `#span-${task.id}`
     );
+    const startTimeElement = document.querySelector<HTMLSpanElement>(
+      `#start-time-${task.id}`
+    );
+    const endTimeElement = document.querySelector<HTMLSpanElement>(
+      `#end-time-${task.id}`
+    );
+
+    taskElement?.setAttribute("contenteditable", "true");
+    startTimeElement?.setAttribute("contenteditable", "true");
+    endTimeElement?.setAttribute("contenteditable", "true");
+
     taskElement?.classList.remove("strikethrough");
+    startTimeElement?.classList.remove("strikethrough");
+    endTimeElement?.classList.remove("strikethrough");
   }
 }
 
@@ -177,6 +233,22 @@ function getTasks() {
   return fetch("http://localhost:3000/tasks").then((response) =>
     response.json()
   );
+}
+
+// Editing items
+function editItems(task: Task, htmlElement: HTMLElement) {
+  // console.log(task);
+  // console.log(htmlElement);
+  if (htmlElement.id.startsWith("end-time")) {
+    console.log(htmlElement);
+  }
+
+  // fetch(`http://localhost:3000/tasks/${task.id}`, {
+  //   method: "PATCH",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify()})
 }
 
 // Init
