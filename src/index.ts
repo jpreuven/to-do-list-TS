@@ -106,20 +106,49 @@ function addListItem(task: Task) {
       event.target === span
     ) {
       editItems(task, event.target as HTMLElement);
-      // console.log((event.target as HTMLElement).textContent);
     }
   });
 
   // setting text content
   deleteButton.textContent = " 🗑";
   span.textContent = task.title;
-  startTime.textContent = "10:45am";
-  endTime.textContent = "5:45am";
+  // startTime.textContent = "10:45am";
+  // endTime.textContent = "5:45am";
+  for (let i = 1; i <= 12; i++) {
+    let minutes = 0;
+    while (minutes < 60) {
+      const startOptions = document.createElement("option");
+      const endOptions = document.createElement("option");
+      startOptions.textContent = minutes === 0 ? `${i}:00` : i + ":" + minutes;
+      endOptions.textContent = minutes === 0 ? `${i}:00` : i + ":" + minutes;
+      startTime.append(startOptions);
+      endTime.append(endOptions);
+      minutes += 15;
+    }
+  }
+
   checkbox.checked = task.completed;
 
   // applying styling
   startTime.style.padding = "0 20px 0 10px";
+  startTime.style.alignSelf = "flex-start";
+  // startTime.style.height = "3dvh";
+  startTime.style.fontSize = "60%";
+  startTime.style.border = "none";
+  startTime.style.appearance = "none";
+  // test
+  // startTime.style.flexGrow = "0.1";
+  // endTime.style.flexGrow = "0.1";
+
+  // startTime.style.zIndex = "-1";
   endTime.style.padding = "0 20px 0 10px";
+  endTime.style.alignSelf = "flex-start";
+  // endTime.style.height = "3dvh";
+  endTime.style.fontSize = "60%";
+  endTime.style.border = "none";
+  endTime.style.appearance = "none";
+  // endTime.style.zIndex = "-1";
+
   checkbox.style.marginRight = "20px";
   span.style.padding = "0 20px 0 10px";
   startTime.style.outline = "none";
@@ -176,15 +205,11 @@ function completedStrikeThrough(task: Task) {
     const endTimeElement = document.querySelector<HTMLSpanElement>(
       `#end-time-${task.id}`
     );
-    // console.log(taskElement?.getAttribute("contenteditable"));
-    // console.log(taskElement?.getAttribute("contenteditable"));
     taskElement?.setAttribute("contenteditable", "false");
-    startTimeElement?.setAttribute("contenteditable", "false");
-    endTimeElement?.setAttribute("contenteditable", "false");
+    startTimeElement?.setAttribute("disabled", "true");
+    endTimeElement?.setAttribute("disabled", "true");
 
     taskElement?.classList.add("strikethrough");
-    startTimeElement?.classList.add("strikethrough");
-    endTimeElement?.classList.add("strikethrough");
   } else {
     const taskElement = document.querySelector<HTMLSpanElement>(
       `#span-${task.id}`
@@ -197,12 +222,10 @@ function completedStrikeThrough(task: Task) {
     );
 
     taskElement?.setAttribute("contenteditable", "true");
-    startTimeElement?.setAttribute("contenteditable", "true");
-    endTimeElement?.setAttribute("contenteditable", "true");
+    startTimeElement?.removeAttribute("disabled");
+    endTimeElement?.removeAttribute("disabled");
 
     taskElement?.classList.remove("strikethrough");
-    startTimeElement?.classList.remove("strikethrough");
-    endTimeElement?.classList.remove("strikethrough");
   }
 }
 
